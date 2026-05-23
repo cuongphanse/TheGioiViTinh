@@ -1,0 +1,239 @@
+﻿@using TheGioiViTinh.Models.Enum
+@model RegisterVM
+
+<div class="container">
+    <div class="row justify-content-center mt-5 mb-5">
+
+        <div class="col-md-8 col-lg-7">
+
+            <div class="card shadow-sm border overflow-hidden">
+
+                <div class="card-header text-white py-3 px-4 text-center"
+                     style="background: linear-gradient(to right, #065f46, #282828, #191414);">
+
+                    <i class="bi bi-person-plus-fill display-4"></i>
+
+                    <h4 class="fw-bold mt-2 mb-1">
+                        Tạo tài khoản
+                    </h4>
+
+                    <p class="mb-0 small"
+                       style="color: #1DB954;">
+
+                        Tham gia cùng chúng tôi ngay hôm nay
+                    </p>
+                </div>
+
+                <div class="card-body p-5">
+
+                    <form method="post" asp-action="Register" asp-route-returnUrl="@ViewData["returnUrl"]">
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3"></div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Name"
+                                       class="form-label fw-semibold">
+                                </label>
+
+                                <input asp-for="Name"
+                                       class="form-control"
+                                       placeholder="Nguyễn Văn A" />
+
+                                <span asp-validation-for="Name"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Email"
+                                       class="form-label fw-semibold">
+                                </label>
+
+                                <input asp-for="Email"
+                                       class="form-control"
+                                       placeholder="example@gmail.com" />
+
+                                <span asp-validation-for="Email"
+                                      class="text-danger small"></span>
+                            </div>
+
+                        </div>
+
+                        <!-- PASSWORD -->
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Password"
+                                       class="form-label fw-semibold">
+                                </label>
+
+                                <input asp-for="Password"
+                                       class="form-control"
+                                       placeholder="Nhập mật khẩu" />
+
+                                <span asp-validation-for="Password"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="ConfirmPassword"
+                                       class="form-label fw-semibold">
+                                </label>
+
+                                <input asp-for="ConfirmPassword"
+                                       class="form-control"
+                                       placeholder="Nhập lại mật khẩu" />
+
+                                <span asp-validation-for="ConfirmPassword"
+                                      class="text-danger small"></span>
+                            </div>
+
+                        </div>
+
+                        <!-- PHONE -->
+
+                        <div class="mb-3">
+
+                            <label asp-for="PhoneNumber"
+                                   class="form-label fw-semibold">
+                            </label>
+
+                            <input asp-for="PhoneNumber"
+                                   class="form-control"
+                                   placeholder="0123456789" />
+
+                            <span asp-validation-for="PhoneNumber"
+                                  class="text-danger small"></span>
+                        </div>
+
+                        <!-- ADDRESS -->
+
+                        <div class="mb-3">
+
+                            <label asp-for="StreetAddress"
+                                   class="form-label fw-semibold">
+                            </label>
+
+                            <input asp-for="StreetAddress"
+                                   class="form-control"
+                                   placeholder="Số nhà, tên đường..." />
+
+                            <span asp-validation-for="StreetAddress"
+                                  class="text-danger small"></span>
+                        </div>
+
+                        <!-- LOCATION -->
+
+                        <div class="row">
+
+                            <div class="col-md-4 mb-3">
+
+                                <label asp-for="Ward"
+                                       class="form-label fw-semibold">
+                                </label>
+
+                                <input asp-for="Ward"
+                                       class="form-control"
+                                       placeholder="Phường/Xã" />
+
+                                <span asp-validation-for="Ward"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+
+                                <label asp-for="District"
+                                       class="form-label fw-semibold">
+                                </label>
+
+                                <input asp-for="District"
+                                       class="form-control"
+                                       placeholder="Quận/Huyện" />
+
+                                <span asp-validation-for="District"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+
+                                <label asp-for="CityOrProvince"
+                                       class="form-label fw-semibold">
+                                </label>
+
+                                <input asp-for="CityOrProvince"
+                                       class="form-control"
+                                       placeholder="Tỉnh/Thành phố" />
+
+                                <span asp-validation-for="CityOrProvince"
+                                      class="text-danger small"></span>
+                            </div>
+
+                        </div>
+                        @if (User.IsInRole(UserRole.Admin))
+                            {
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Role"
+                                       class="form-label fw-semibold">
+                                </label>
+
+                                <select asp-for="Role" asp-items="@Model.RoleList"
+                                        class="form-select">
+                                    <option disabled selected>
+                                        -- Chọn quyền --
+                                    </option>
+                                </select>
+                            </div>
+                            }
+                           
+
+                        <!-- BUTTON -->
+
+                        <button type="submit"
+                                class="btn btn-success btn-lg w-100 mb-3">
+
+                            <i class="bi bi-person-check me-2"></i>
+                            Đăng ký
+                        </button>
+
+                    </form>
+
+                    <hr class="my-4" />
+
+                    <div class="text-center">
+
+                        <p class="mb-0">
+
+                            Đã có tài khoản?
+
+                            <a asp-action="Login" asp-route-returnUrl="@ViewData["returnUrl"]"
+                               class="fw-semibold text-decoration-none"
+                               style="color: #17A34A;">
+
+                                Đăng nhập ngay
+                            </a>
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

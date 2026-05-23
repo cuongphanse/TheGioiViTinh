@@ -1,0 +1,515 @@
+﻿@model ShoppingCartVM
+@{
+    var itemCount = Model.ShoppingCartList.Count();
+}
+<div class="container py-4" style="max-width: 1140px;">
+
+    <form method="post">
+
+        <!-- BACK -->
+
+        <a asp-area="Customer"
+           asp-controller="Home"
+           asp-action="Index"
+           class="text-decoration-none text-secondary small fw-medium d-inline-flex align-items-center gap-1 mb-3">
+
+            <i class="bi bi-arrow-left"></i>
+            Tiếp tục mua sắm
+
+        </a>
+
+        <div class="row g-4 align-items-start">
+
+            <!-- ================= LEFT ================= -->
+
+            <div class="col-lg-7">
+
+                <div class="card border shadow-sm overflow-hidden">
+
+                    <div class="card-header text-white d-flex align-items-center justify-content-between py-3 px-4"
+                         style="background: linear-gradient(to right, #065f46, #282828, #191414);">
+
+                        <h5 class="mb-0 fw-bold">
+
+                            <i class="bi bi-cart3 me-2"></i>
+                            Giỏ hàng của bạn
+
+                        </h5>
+
+                        <span class="badge rounded-pill bg-white bg-opacity-25 text-white">
+
+                            @itemCount
+
+                        </span>
+
+                    </div>
+
+                    @if (itemCount == 0)
+                    {
+                        <div class="p-5 text-center">
+
+                            <i class="bi bi-cart-x display-3 text-secondary"></i>
+
+                            <h5 class="fw-bold mt-3">
+                                Giỏ hàng đang trống
+                            </h5>
+
+                            <p class="text-secondary mb-4">
+                                Hãy thêm sản phẩm vào giỏ hàng của bạn
+                            </p>
+
+                            <a asp-area="Customer"
+                               asp-controller="Home"
+                               asp-action="Index"
+                               class="btn btn-success px-4">
+
+                                Mua sắm ngay
+
+                            </a>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="cart-items-scroll">
+
+                            @foreach (var item in Model.ShoppingCartList)
+                            {
+                                <div class="d-flex gap-3 px-4 py-3 border-bottom cart-item">
+
+
+                                    <a asp-action="Detail"
+                                       asp-controller="Home"
+                                       asp-route-id="@item.ProductId"
+                                       class="flex-shrink-0">
+
+                                        <div class="rounded overflow-hidden"
+                                             style="width: 72px; height: 72px;">
+
+                                            <img src="@item.Product.MainImageUrl"
+                                                 class="w-100 h-100"
+                                                 style="object-fit: cover;"
+                                                 alt="@item.Product.Name" />
+
+                                        </div>
+
+                                    </a>
+
+
+                                    <div class="flex-grow-1"
+                                         style="min-width: 0;">
+
+                                        <a asp-action="Detail"
+                                           asp-controller="Home"
+                                           asp-route-id="@item.ProductId"
+                                           class="fw-semibold text-decoration-none d-block text-truncate text-dark"
+                                           style="font-size: 0.9rem;">
+
+                                            @item.Product.Name
+
+                                        </a>
+
+                                        <p class="text-secondary mb-2"
+                                           style="font-size: 0.75rem;">
+
+                                            @item.Product.Brand?.Name
+                                            ·
+                                            @item.Product.FinalPrice.ToString("N0") ₫
+
+                                        </p>
+
+                                        <div class="d-flex align-items-center gap-2">
+
+                                            <div class="input-group"
+                                                 style="width: 130px;">
+
+                                                <a asp-action="Minus"
+                                                   asp-route-cartId="@item.Id"
+                                                   class="btn btn-outline-secondary btn-sm px-2">
+
+                                                    <i class="bi bi-dash"></i>
+
+                                                </a>
+
+                                                <input type="number"
+                                                        min="1"
+                                                       max="1000"
+                                                       value="@item.Count"
+                                                       class="form-control form-control-sm text-center fw-bold"
+                                                       onchange="updateCart(@item.Id,this)"
+                                                        />
+
+                                                <a asp-action="Plus"
+                                                   asp-route-cartId="@item.Id"
+                                                   class="btn btn-outline-success btn-sm px-2">
+
+                                                    <i class="bi bi-plus-lg"></i>
+
+                                                </a>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- PRICE -->
+
+                                    <div class="text-end flex-shrink-0 d-flex flex-column justify-content-between align-self-stretch">
+
+                                        <span class="fw-bold"
+                                              style="font-size: 0.95rem;">
+
+                                            @item.Price.ToString("N0") ₫
+
+                                        </span>
+
+                                        <a asp-action="Remove"
+                                           asp-route-cartId="@item.Id"
+                                           class="text-danger text-decoration-none d-inline-flex align-items-center gap-1"
+                                           style="font-size: 0.75rem;">
+
+                                            <i class="bi bi-trash3"></i>
+                                            Xóa
+
+                                        </a>
+
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+            <!-- ================= RIGHT ================= -->
+
+            <div class="col-lg-5">
+
+                <div class="position-lg-sticky"
+                     style="top: 80px;">
+
+                    <div class="card border shadow-sm overflow-hidden">
+
+                        <!-- SHIPPING -->
+
+                        <div class="px-4 pt-4 pb-3">
+
+                            <h6 class="fw-bold mb-3 d-flex align-items-center gap-2">
+
+                                <i class="bi bi-file-person"
+                                   style="color: #17A34A;"></i>
+
+                                Tên và điện thoại
+
+                            </h6>
+
+                            <div class="row g-2 mb-2">
+
+                                <div class="col-6">
+
+                                    <input asp-for="@Model.OrderHeader.Name"
+                                           class="form-control form-control-sm"
+                                           placeholder="Họ tên" />
+                                           <span asp-validation-for="@Model.OrderHeader.Name" class="text-danger" style="font-size: 0.65rem;"></span>
+                                </div>
+
+                                <div class="col-6">
+
+                                    <input asp-for="@Model.OrderHeader.PhoneNumber"
+                                           class="form-control form-control-sm"
+                                           placeholder="Số điện thoại" />
+                                    <span asp-validation-for="@Model.OrderHeader.PhoneNumber" class="text-danger" style="font-size: 0.65rem;"></span>
+                                </div>
+
+                            </div>
+                            <h6 class="fw-bold mb-3 d-flex align-items-center gap-2">
+
+                                <i class="bi bi-geo-alt"
+                                   style="color: #17A34A;"></i>
+
+                                Thông tin giao hàng
+
+                            </h6>
+                            <div class="mb-2">
+
+                                <input asp-for="@Model.OrderHeader.StreetAddress"
+                                       class="form-control form-control-sm"
+                                       placeholder="Địa chỉ" />
+                                <span asp-validation-for="@Model.OrderHeader.StreetAddress" class="text-danger" style="font-size: 0.65rem;"></span>
+                            </div>
+
+                            <div class="row g-2">
+
+                                <div class="col-4">
+
+                                    <input asp-for="@Model.OrderHeader.Ward"
+                                           class="form-control form-control-sm"
+                                           placeholder="Phường/Xã" />
+                                    <span asp-validation-for="@Model.OrderHeader.Ward" class="text-danger" style="font-size: 0.65rem;"></span>
+                                </div>
+
+                                <div class="col-4">
+
+                                    <input asp-for="@Model.OrderHeader.District"
+                                           class="form-control form-control-sm"
+                                           placeholder="Quận/Huyện" />
+                                    <span asp-validation-for="@Model.OrderHeader.District" class="text-danger" style="font-size: 0.65rem;"></span>
+                                </div>
+
+                                <div class="col-4">
+
+                                    <input asp-for="@Model.OrderHeader.CityOrProvince"
+                                           class="form-control form-control-sm"
+                                           placeholder="Tỉnh/Thành phố" />
+                                    <span asp-validation-for="@Model.OrderHeader.CityOrProvince" class="text-danger" style="font-size: 0.65rem;"></span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <hr class="my-0 mx-4" />
+
+                        <!-- SUMMARY -->
+
+                        <div class="px-4 py-3">
+
+                            <h6 class="fw-bold mb-3 d-flex align-items-center gap-2">
+
+                                <i class="bi bi-receipt"
+                                   style="color: #17A34A;"></i>
+
+                                Tóm tắt đơn hàng
+
+                            </h6>
+
+                            @foreach (var item in Model.ShoppingCartList)
+                            {
+                                <div class="d-flex justify-content-between mb-2"
+                                     style="font-size: 0.85rem;">
+
+                                    <span class="text-secondary text-truncate me-2">
+
+                                        @item.Product.Name × @item.Count
+
+                                    </span>
+
+                                    <span class="fw-medium flex-shrink-0">
+
+                                        @item.Price.ToString("N0") ₫
+
+                                    </span>
+
+                                </div>
+                            }
+
+                            <hr class="my-2" />
+
+                            <div class="d-flex justify-content-between"
+                                 style="font-size: 0.85rem;">
+
+                                <span class="text-secondary">
+                                    Phí vận chuyển
+                                </span>
+
+                                <span class="fw-semibold text-success">
+                                    Miễn phí
+                                </span>
+
+                            </div>
+
+                            <hr class="my-2" />
+                            <!-- PAYMENT METHOD -->
+
+                            <div class="mb-4">
+
+                                <h6 class="fw-bold mb-3 d-flex align-items-center gap-2">
+
+                                    <i class="bi bi-wallet2"
+                                       style="color: #17A34A;"></i>
+
+                                    Phương thức thanh toán
+
+                                </h6>
+
+                                <div class="form-check mb-2">
+
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           asp-for="OrderHeader.PaymentMethod"
+                                           value="COD"
+                                           id="cod"
+                                           checked />
+
+                                    <label class="form-check-label"
+                                           for="cod">
+
+                                        Thanh toán khi nhận hàng (COD)
+
+                                    </label>
+
+                                </div>
+
+                                <div class="form-check">
+
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           asp-for="OrderHeader.PaymentMethod"
+                                           value="VNPay"
+                                           id="vnpay" />
+
+                                    <label class="form-check-label"
+                                           for="vnpay">
+
+                                        Thanh toán VNPay
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- TOTAL -->
+
+                        <div class="d-flex justify-content-between align-items-center px-4 py-3 text-white"
+                             style="background: linear-gradient(to right, #065f46, #282828, #191414);">
+
+                            <span class="text-uppercase fw-semibold small">
+
+                                Tổng cộng
+
+                            </span>
+
+                            <span class="fw-bold fs-5">
+
+                                @Model.OrderHeader.OrderTotal.ToString("N0") ₫
+
+                            </span>
+
+                        </div>
+
+                        <!-- SUBMIT -->
+
+                        <div class="p-4">
+
+                            <button type="submit"
+                                    class="btn btn-success w-100 fw-semibold py-2 d-flex align-items-center justify-content-center gap-2">
+
+                                <i class="bi bi-credit-card"></i>
+                                Đặt hàng
+
+                            </button>
+
+                            <div class="d-flex justify-content-center gap-3 mt-3 text-secondary"
+                                 style="font-size: 0.75rem;">
+
+                                <span>
+                                    <i class="bi bi-shield-check me-1"></i>
+                                    Thanh toán an toàn
+                                </span>
+
+                                <span>
+                                    <i class="bi bi-truck me-1"></i>
+                                    Giao hàng nhanh
+                                </span>
+
+                                <span>
+                                    <i class="bi bi-arrow-counterclockwise me-1"></i>
+                                    Hỗ trợ đổi trả
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts{
+    <script>
+
+        function updateCart(cartId, input) {
+
+            let count = parseInt(input.value);
+
+            // Không phải số
+            if (isNaN(count)) {
+
+                alert('Số lượng không hợp lệ');
+
+                input.value = 1;
+
+                return;
+            }
+
+            // Nhỏ hơn 1
+            if (count < 1) {
+
+                alert('Số lượng tối thiểu là 1');
+
+                input.value = 1;
+
+                return;
+            }
+
+            // Lớn hơn 1000
+            if (count > 1000) {
+
+                alert('Số lượng tối đa là 1000');
+
+                input.value = 1000;
+
+                return;
+            }
+
+            fetch('/Customer/Cart/UpdateCart', {
+
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+
+                body: 'cartId=' + cartId + '&count=' + count
+
+            })
+            .then(response => {
+
+                if (response.ok) {
+
+                    window.location.reload();
+
+                } else {
+
+                    alert('Cập nhật giỏ hàng thất bại');
+
+                }
+
+            })
+            .catch(error => {
+
+                console.error(error);
+
+                alert('Đã xảy ra lỗi');
+
+            });
+        }
+
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}

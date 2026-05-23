@@ -1,0 +1,419 @@
+﻿@using TheGioiViTinh.Models.ViewModels
+@model DiscountCreateVM
+
+<div class="container-fluid">
+
+    <a asp-action="Index"
+       class="text-decoration-none text-secondary small fw-medium d-inline-flex align-items-center gap-1 mb-3">
+
+        <i class="bi bi-arrow-left"></i>
+        Quay lại danh sách
+
+    </a>
+
+    <div class="card border shadow-sm overflow-hidden">
+
+        <!-- HEADER -->
+
+        <div class="card-header text-white py-3 px-4"
+             style="background: linear-gradient(to right, #065f46, #282828, #191414);">
+
+            <h5 class="mb-0 fw-bold">
+
+                <i class="bi bi-percent me-2"></i>
+                Tạo Discount
+
+            </h5>
+
+            <p class="mb-0 small"
+               style="color: #1DB954;">
+
+                Tạo chương trình giảm giá cho sản phẩm
+
+            </p>
+
+        </div>
+
+        <!-- BODY -->
+
+        <div class="card-body p-4">
+
+            <form method="post"
+                  asp-action="Create">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3"></div>
+
+                <div class="row g-4">
+
+                    <!-- LEFT -->
+
+                    <div class="col-lg-4">
+
+                        <!-- NAME -->
+
+                        <div class="mb-3">
+
+                            <label asp-for="Discount.Name"
+                                   class="form-label fw-semibold small">
+                            </label>
+
+                            <input asp-for="Discount.Name"
+                                   class="form-control"
+                                   placeholder="Ví dụ: Sale hè 2026" />
+
+                            <span asp-validation-for="Discount.Name"
+                                  class="text-danger small"></span>
+
+                        </div>
+
+                        <!-- PERCENT -->
+
+                        <div class="mb-3">
+
+                            <label asp-for="Discount.DiscountPercent"
+                                   class="form-label fw-semibold small">
+                            </label>
+
+                            <div class="input-group">
+
+                                <input asp-for="Discount.DiscountPercent"
+                                       class="form-control" />
+
+                                <span class="input-group-text">
+                                    %
+                                </span>
+
+                            </div>
+
+                            <span asp-validation-for="Discount.DiscountPercent"
+                                  class="text-danger small"></span>
+
+                        </div>
+
+                        <!-- START DATE -->
+
+                        <div class="mb-3">
+
+                            <label asp-for="Discount.StartDate"
+                                   class="form-label fw-semibold small">
+                            </label>
+
+                            <input asp-for="Discount.StartDate"
+                                   type="datetime-local"
+                                   class="form-control custom-date" />
+
+                        </div>
+
+                        <!-- END DATE -->
+
+                        <div class="mb-3">
+
+                            <label asp-for="Discount.EndDate"
+                                   class="form-label fw-semibold small">
+                            </label>
+
+                            <input asp-for="Discount.EndDate"
+                                   type="datetime-local"
+                                   class="form-control custom-date" />
+
+                        </div>
+
+                        <!-- ACTIVE -->
+
+                        <div class="form-check form-switch mb-4">
+
+                            <input asp-for="Discount.IsActive"
+                                   class="form-check-input"
+                                   style="width: 3rem; height: 1.5rem;" />
+
+                            <label asp-for="Discount.IsActive"
+                                   class="form-check-label fw-semibold ms-2">
+                            </label>
+
+                        </div>
+
+                        <!-- BUTTON -->
+
+                        <button type="submit"
+                                class="btn btn-success w-100 fw-semibold py-2">
+
+                            <i class="bi bi-check-circle me-1"></i>
+                            Tạo Discount
+
+                        </button>
+
+                    </div>
+
+                    <!-- RIGHT -->
+
+                    <div class="col-lg-8">
+
+                        <!-- TOP BAR -->
+
+                        <div class="d-flex flex-column flex-md-row gap-3 mb-4">
+
+                            <!-- SEARCH -->
+
+                            <div class="flex-grow-1">
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text bg-white">
+
+                                        <i class="bi bi-search"></i>
+
+                                    </span>
+
+                                    <input type="text"
+                                           id="searchProduct"
+                                           class="form-control"
+                                           placeholder="Tìm sản phẩm theo tên..." />
+
+                                </div>
+
+                            </div>
+
+                            <!-- SELECT ALL -->
+
+                            <button type="button"
+                                    id="selectAllBtn"
+                                    class="btn btn-outline-success">
+
+                                <i class="bi bi-check2-square me-1"></i>
+                                Chọn tất cả
+
+                            </button>
+
+                        </div>
+
+                        <!-- COUNT -->
+
+                        <div class="alert alert-success py-2 mb-4">
+
+                            Đã chọn:
+                            <span id="selectedCount"
+                                  class="fw-bold">
+
+                                0
+
+                            </span>
+                            sản phẩm
+
+                        </div>
+
+                        <!-- PRODUCT LIST -->
+
+                        <div class="row g-4"
+                             id="productContainer">
+
+                            @foreach (var product in Model.Products)
+                            {
+                                var hasDiscount =
+                                product.ProductDiscounts.Any(pd =>
+                                pd.Discount != null &&
+                                pd.Discount.IsActive &&
+                                pd.Discount.EndDate >= DateTime.Now);
+
+                                <div class="col-xl-3 col-lg-4 col-md-6 product-item"
+                                     data-name="@product.Name.ToLower()">
+
+                                    <label class="product-card w-100 @(hasDiscount ? "disabled-card" : "")">
+
+                                        @if (!hasDiscount)
+                                        {
+                                            <input type="checkbox"
+                                                   name="SelectedProductIds"
+                                                   value="@product.Id"
+                                                   hidden />
+                                        }
+
+                                        <div class="card border-2 h-100 shadow-sm overflow-hidden">
+
+                                            <!-- IMAGE -->
+
+                                            <div style="height: 200px; overflow: hidden;">
+
+                                                <img src="@product.MainImageUrl"
+                                                     class="w-100 h-100 object-fit-cover" />
+
+                                            </div>
+
+                                            <!-- BODY -->
+
+                                            <div class="card-body">
+
+                                                <h6 class="fw-bold mb-2 product-name">
+
+                                                    @product.Name
+
+                                                </h6>
+
+                                                <div class="d-flex align-items-center justify-content-between">
+
+                                                    <span class="fw-bold text-success">
+
+                                                        @product.Price.ToString("N0")₫
+
+                                                    </span>
+
+                                                    @if (hasDiscount)
+                                                    {
+                                                        <span class="badge bg-danger">
+                                                            Đã giảm
+                                                        </span>
+                                                    }
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </label>
+
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+    .custom-date {
+        padding: .7rem .9rem;
+    }
+
+    .product-card {
+        cursor: pointer;
+        display: block;
+    }
+
+        .product-card .card {
+            transition: all .25s ease;
+            border: 2px solid transparent;
+        }
+
+        .product-card:hover .card {
+            transform: translateY(-5px);
+        }
+
+        .product-card input:checked + .card {
+            border-color: #198754;
+            box-shadow: 0 0 0 4px rgba(25,135,84,.15);
+            transform: translateY(-5px);
+        }
+
+    .disabled-card {
+        opacity: .6;
+        pointer-events: none;
+    }
+
+    .object-fit-cover {
+        object-fit: cover;
+    }
+
+</style>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        // =============================
+        // COUNT SELECTED
+        // =============================
+
+        function updateSelectedCount(){
+
+            const count =
+            document.querySelectorAll(
+            'input[name="SelectedProductIds"]:checked'
+            ).length;
+
+            document.getElementById(
+            "selectedCount"
+            ).innerText = count;
+        }
+
+        document.addEventListener("change", function(e){
+
+            if(e.target.matches(
+            'input[name="SelectedProductIds"]'))
+            {
+                updateSelectedCount();
+            }
+        });
+
+        // =============================
+        // SEARCH PRODUCT
+        // =============================
+
+        document
+        .getElementById("searchProduct")
+        .addEventListener("keyup", function(){
+
+            const keyword =
+            this.value.toLowerCase();
+
+            const items =
+            document.querySelectorAll(".product-item");
+
+            items.forEach(item => {
+
+                const name =
+                item.dataset.name;
+
+                item.style.display =
+                name.includes(keyword)
+                ? ""
+                : "none";
+
+            });
+
+        });
+
+        // =============================
+        // SELECT ALL
+        // =============================
+
+        let selectedAll = false;
+
+        document
+        .getElementById("selectAllBtn")
+        .addEventListener("click", function(){
+
+            const checkboxes =
+            document.querySelectorAll(
+            'input[name="SelectedProductIds"]');
+
+            selectedAll = !selectedAll;
+
+            checkboxes.forEach(cb => {
+
+                cb.checked = selectedAll;
+
+            });
+
+            this.innerHTML = selectedAll
+            ? '<i class="bi bi-x-circle me-1"></i>Bỏ chọn'
+            : '<i class="bi bi-check2-square me-1"></i>Chọn tất cả';
+
+            updateSelectedCount();
+
+        });
+
+    </script>
+}

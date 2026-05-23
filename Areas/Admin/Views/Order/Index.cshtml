@@ -1,0 +1,123 @@
+﻿@using TheGioiViTinh.Models.Enum
+@{
+    var inactive = "btn btn-outline-secondary btn-sm ";
+    var active = "btn btn-secondary btn-sm ";
+    var status = Context.Request.Query["status"];
+    var pending = inactive;
+    var approved = inactive;
+    var shipped = inactive;
+    var all = inactive;
+    var cancelled = inactive;
+    var completed = inactive;
+    var processing = inactive;
+    switch (status)
+    {
+        case "pending":
+            pending = active;
+            break;
+        case "approved":
+            approved = active;
+            break;
+        case "cancelled":
+            cancelled = active;
+            break;
+        case "shipped":
+            shipped = active;
+            break;
+        case "completed":
+            completed = active;
+            break;
+        case "processing":
+            processing = active;
+            break;
+        default:
+            all = active;
+            break;
+    }
+    var isCustomer = User.IsInRole(UserRole.Customer);
+    var containerClass = isCustomer ? "container my-4 pt-3" : "container-fluid py-4";
+}
+<div class="@containerClass">
+
+    <div class="card border shadow-sm overflow-hidden">
+
+        <!-- Header -->
+
+        <div class="card-header text-white py-3 px-4 d-flex justify-content-between align-items-center"
+             style="background: linear-gradient(to right, #065f46, #282828, #191414);">
+
+            <div>
+
+                <h5 class="mb-0 fw-bold">
+                    <i class="bi bi-laptop me-2"></i>
+                    Đơn hàng
+                </h5>
+
+                <p class="mb-0 small"
+                   style="color:#1DB954;">
+
+                    Quản lý đơn hàng hệ thống
+                </p>
+
+            </div>
+            <div class="d-flex flex-wrap align-items-center gap-2">
+                    <span class="text-uppercase fw-semibold me-1" style="font-size: 0.65rem; letter-spacing: 0.1em; color: #94a3b8;">Bộ lọc</span>
+                    <a class="@all" asp-controller="Order" asp-action="Index" asp-route-status="all">Tất cả</a>
+                <a class="@pending" asp-controller="Order" asp-action="Index" asp-route-status="pending">Đang chờ</a>
+                <a class="@approved" asp-controller="Order" asp-action="Index" asp-route-status="approved">Đã duyệt</a>
+                <a class="@processing" asp-controller="Order" asp-action="Index" asp-route-status="processing">Đang xử lý</a>
+                <a class="@shipped" asp-controller="Order" asp-action="Index" asp-route-status="shipped">Đang giao</a>
+                <a class="@completed" asp-controller="Order" asp-action="Index" asp-route-status="completed">Hoàn thành</a>
+                <a class="@cancelled" asp-controller="Order" asp-action="Index" asp-route-status="cancelled">Đã hủy</a>
+            </div>
+
+        </div>
+
+        <!-- Body -->
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table id="tblData"
+                       class="table table-bordered table-hover align-middle w-100">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>Id</th>
+
+                            <th>Tên</th>
+
+                            <th>Số điện thoại</th>
+
+                            <th>Email</th>
+
+                            <th>Trạng thái đơn</th>
+
+                            <th>Tổng tiền</th>
+
+                            <th class="text-end">
+                                Thao tác
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script src="/js/order.js" asp-append-version="true"></script>
+
+}

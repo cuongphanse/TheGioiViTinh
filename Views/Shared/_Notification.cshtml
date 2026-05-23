@@ -1,0 +1,47 @@
+﻿@* @if (TempData["Success"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+     <script>
+        toastr.success('@TempData["Success"]');
+     </script>
+}
+@if (TempData["Error"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script>
+        toastr.success('@TempData["Error"]');
+    </script>
+} *@
+@if (TempData["Success"] != null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            Swal.fire({
+                icon: 'success',
+                title: '@Html.Raw(TempData["Success"])',
+                text: 'Thành công',
+                confirmButtonColor: '#16a34a'
+            });
+
+        });
+    </script>
+}
+
+@if (TempData["Error"] != null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: '@Html.Raw(TempData["Error"])',
+                confirmButtonColor: '#dc2626'
+            });
+
+        });
+    </script>
+}

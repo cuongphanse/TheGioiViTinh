@@ -1,0 +1,420 @@
+﻿@using TheGioiViTinh.Models.ViewModels
+@model ProductUpdateVM
+
+<div class="container-fluid">
+
+    <a asp-action="Index"
+       class="text-decoration-none text-secondary small fw-medium d-inline-flex align-items-center gap-1 mb-3">
+
+        <i class="bi bi-arrow-left"></i>
+        Quay lại danh sách
+    </a>
+
+    <div class="card border shadow-sm overflow-hidden">
+
+
+        <div class="card-header text-white py-3 px-4"
+             style="background: linear-gradient(to right, #065f46, #282828, #191414);">
+
+            <h5 class="mb-0 fw-bold">
+                <i class="bi bi-plus-lg me-2"></i>
+                Chỉnh sửa Sản Phẩm
+            </h5>
+
+        </div>
+
+        <div class="card-body p-4">
+
+            <form method="post"
+                  asp-action="Update"
+                  enctype="multipart/form-data">
+
+                <div asp-validation-summary="All"
+                     class="text-danger mb-3"></div>
+
+                <div class="row">
+
+                    <div class="col-lg-8">
+
+
+                        <div class="mb-3">
+                            <input asp-for="Product.Id" hidden />
+                            <label asp-for="Product.Name"
+                                   class="form-label fw-semibold small"></label>
+
+                            <input asp-for="Product.Name"
+                                   class="form-control"
+                                   placeholder="Nhập tên sản phẩm..." />
+
+                            <span asp-validation-for="Product.Name"
+                                  class="text-danger small"></span>
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label asp-for="Product.Description"
+                                   class="form-label fw-semibold small"></label>
+
+                            <textarea asp-for="Product.Description"
+                                      rows="5"
+                                      hidden
+                                      class="form-control"
+                                      placeholder="Mô tả sản phẩm..."></textarea>
+                            <div id="quill-editor" style="height: 200px"></div>
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Product.Price"
+                                       class="form-label fw-semibold small"></label>
+
+                                <input asp-for="Product.Price"
+                                       class="form-control" />
+
+                                <span asp-validation-for="Product.Price"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Product.StockQuantity"
+                                       class="form-label fw-semibold small"></label>
+
+                                <input asp-for="Product.StockQuantity"
+                                       class="form-control" />
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Product.CategoryId"
+                                       class="form-label fw-semibold small"></label>
+
+                                <select asp-for="Product.CategoryId"
+                                        asp-items="Model.CategoryList"
+                                        class="form-select">
+
+                                    <option value="">
+                                        -- Chọn danh mục --
+                                    </option>
+
+                                </select>
+
+                                <span asp-validation-for="Product.CategoryId"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Product.BrandId"
+                                       class="form-label fw-semibold small"></label>
+
+                                <select asp-for="Product.BrandId"
+                                        asp-items="Model.BrandList"
+                                        class="form-select">
+
+                                    <option value="">
+                                        -- Chọn thương hiệu --
+                                    </option>
+
+                                </select>
+
+                                <span asp-validation-for="Product.BrandId"
+                                      class="text-danger small"></span>
+                            </div>
+
+                        </div>
+
+
+                        <h6 class="fw-bold mt-4 mb-3">
+                            Thông Số Kỹ Thuật
+                        </h6>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Product.CPU"
+                                       class="form-label small fw-semibold"></label>
+
+                                <input asp-for="Product.CPU"
+                                       class="form-control"
+                                       placeholder="VD: Intel Core i7" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Product.RAM"
+                                       class="form-label small fw-semibold"></label>
+
+                                <input asp-for="Product.RAM"
+                                       class="form-control"
+                                       placeholder="VD: 16GB DDR5" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Product.Storage"
+                                       class="form-label small fw-semibold"></label>
+
+                                <input asp-for="Product.Storage"
+                                       class="form-control"
+                                       placeholder="VD: 1TB SSD" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Product.GPU"
+                                       class="form-label small fw-semibold"></label>
+
+                                <input asp-for="Product.GPU"
+                                       class="form-control"
+                                       placeholder="VD: RTX 4060" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Product.Color"
+                                       class="form-label small fw-semibold"></label>
+
+                                <input asp-for="Product.Color"
+                                       class="form-control"
+                                       placeholder="VD: Đen" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Product.Weight"
+                                       class="form-label small fw-semibold"></label>
+
+                                <input asp-for="Product.Weight"
+                                       class="form-control"
+                                       placeholder="VD: 2.1kg" />
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Anh -->
+
+                    <div class="col-lg-4">
+
+
+                        <div class="mb-4">
+                            <div>
+
+                            <label asp-for="MainImage"
+                                   class="form-label fw-semibold small">
+
+                                Ảnh Chính
+                            </label>
+
+                            <input asp-for="MainImage"
+                                   type="file"
+                                   class="form-control"
+                                   accept="image/*"
+                                   id="mainImageInput" />
+
+                          @*   <span asp-validation-for="MainImage"
+                                  class="text-danger small"></span> *@
+
+
+                            @if (!string.IsNullOrEmpty(Model.Product.MainImageUrl))
+                            {
+                                <label asp-for="MainImage"
+                                       class="form-label fw-semibold small">
+
+                                    Ảnh Chính Cũ
+                                </label>
+                                <div class="mb-3">
+
+                                    <img src="@Model.Product.MainImageUrl"
+                                         class="img-fluid rounded border"
+                                         style="max-height:250px;" />
+
+                                </div>
+                            }
+                            <div class="mt-3">
+
+                                <img id="mainPreview"
+                                     class="img-fluid rounded border d-none"
+                                     style="max-height:300px; object-fit:cover;" />
+
+                            </div>
+                            </div>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label asp-for="SubImages"
+                                   class="form-label fw-semibold small">
+
+                                Ảnh Phụ
+                            </label>
+
+                            <input asp-for="SubImages"
+                                   type="file"
+                                   multiple
+                                   accept="image/*"
+                                   class="form-control"
+                                   id="subImagesInput" />
+
+                            @if (Model.Product.ProductImages != null
+                                    && Model.Product.ProductImages.Any())
+                            {
+                                <label asp-for="SubImages"
+                                       class="form-label fw-semibold small">
+
+                                    Ảnh Phụ Cũ
+                                </label>
+                                <div class="d-flex flex-wrap gap-2 mb-3">
+
+                                    @foreach (var image in Model.Product.ProductImages)
+                                    {
+                                        <img src="@image.ImageUrl"
+                                             class="border rounded"
+                                             style="width:100px;
+                                        height:100px;
+                                        object-fit:cover;" />
+                                    }
+
+                                </div>
+                            }
+                            <div id="subPreview"
+                                 class="d-flex flex-wrap gap-2 mt-3">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="d-flex gap-2 mt-4">
+
+                    <button type="submit"
+                            class="btn btn-success fw-semibold">
+
+                        <i class="bi bi-check-lg me-1"></i>
+                        Thay đổi
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-light fw-medium">
+
+                        Hủy
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+    <script>
+
+        const quill = new Quill('#quill-editor', {
+        theme: 'snow'
+        });
+
+        const textAreaDesc = document.querySelector('textarea[name="Product.Description"]');
+
+
+        if (textAreaDesc.value) {quill.root.innerHTML = textAreaDesc.value;}
+
+
+        quill.on('text-change', () => {
+        textAreaDesc.value =
+        quill.root.innerHTML;
+        });
+
+    </script>
+    <script>
+
+        document
+            .getElementById("mainImageInput")
+            .addEventListener("change", function (e) {
+
+                const file = e.target.files[0];
+
+                if (file) {
+
+                    const reader = new FileReader();
+
+                    reader.onload = function (event) {
+
+                        const preview =
+                            document.getElementById("mainPreview");
+
+                        preview.src = event.target.result;
+
+                        preview.classList.remove("d-none");
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            });
+
+        document
+            .getElementById("subImagesInput")
+            .addEventListener("change", function (e) {
+
+                const previewContainer =
+                    document.getElementById("subPreview");
+
+                previewContainer.innerHTML = "";
+
+                const files = e.target.files;
+
+                for (let i = 0; i < files.length; i++) {
+
+                    const file = files[i];
+
+                    const reader = new FileReader();
+
+                    reader.onload = function (event) {
+
+                        const img =
+                            document.createElement("img");
+
+                        img.src = event.target.result;
+
+                        img.classList.add(
+                            "border",
+                            "rounded"
+                        );
+
+                        img.style.width = "100px";
+                        img.style.height = "100px";
+                        img.style.objectFit = "cover";
+
+                        previewContainer.appendChild(img);
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            });
+
+    </script>
+}

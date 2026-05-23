@@ -1,0 +1,279 @@
+﻿@model DashboardVM
+
+<div class="mb-4">
+
+    <h1 class="h4 fw-bold">
+        Chào mừng quay trở lại 👋
+    </h1>
+
+    <p class="text-secondary small mb-0">
+        Đây là tổng quan hoạt động của cửa hàng.
+    </p>
+
+</div>
+
+<!-- THỐNG KÊ -->
+
+<div class="row g-3 mb-4">
+
+    <!-- DOANH THU -->
+
+    <div class="col-sm-6 col-lg-3">
+
+        <div class="card border shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex align-items-center justify-content-between mb-2">
+
+                    <div class="rounded d-flex align-items-center justify-content-center"
+                         style="width: 40px; height: 40px; background: #dbeafe;">
+
+                        <i class="bi bi-currency-dollar"
+                           style="color: #3b82f6;"></i>
+
+                    </div>
+
+                    <span class="text-uppercase fw-semibold text-secondary"
+                          style="font-size: 0.6rem; letter-spacing: 0.05em;">
+
+                        Doanh thu
+
+                    </span>
+
+                </div>
+
+                <p class="h4 fw-bold mb-0">
+
+                    @Model.TotalRevenue.ToString("N0") ₫
+
+                </p>
+
+                <p class="text-secondary mb-0"
+                   style="font-size: 0.75rem;">
+
+                    Từ các đơn đã duyệt
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ĐƠN HÀNG -->
+
+    <div class="col-sm-6 col-lg-3">
+
+        <a href="#"
+           class="card border shadow-sm h-100 text-decoration-none">
+
+            <div class="card-body">
+
+                <div class="d-flex align-items-center justify-content-between mb-2">
+
+                    <div class="rounded d-flex align-items-center justify-content-center"
+                         style="width: 40px; height: 40px; background: #d1fae5;">
+
+                        <i class="bi bi-truck"
+                           style="color: #10b981;"></i>
+
+                    </div>
+
+                    <span class="text-uppercase fw-semibold text-secondary"
+                          style="font-size: 0.6rem; letter-spacing: 0.05em;">
+
+                        Đơn hàng
+
+                    </span>
+
+                </div>
+
+                <p class="h4 fw-bold text-dark mb-0">
+
+                    @Model.TotalOrders
+
+                </p>
+
+                <p class="text-secondary mb-0"
+                   style="font-size: 0.75rem;">
+
+                    Xem tất cả đơn hàng →
+
+                </p>
+
+            </div>
+
+        </a>
+
+    </div>
+
+    <!-- SẢN PHẨM -->
+
+    <div class="col-sm-6 col-lg-3">
+
+        <a href="#"
+           class="card border shadow-sm h-100 text-decoration-none">
+
+            <div class="card-body">
+
+                <div class="d-flex align-items-center justify-content-between mb-2">
+
+                    <div class="rounded d-flex align-items-center justify-content-center"
+                         style="width: 40px; height: 40px; background: #f3e8ff;">
+
+                        <i class="bi bi-box-seam"
+                           style="color: #8b5cf6;"></i>
+
+                    </div>
+
+                    <span class="text-uppercase fw-semibold text-secondary"
+                          style="font-size: 0.6rem; letter-spacing: 0.05em;">
+
+                        Sản phẩm
+
+                    </span>
+
+                </div>
+
+                <p class="h4 fw-bold text-dark mb-0">
+
+                    @Model.TotalProducts
+
+                </p>
+
+                <p class="text-secondary mb-0"
+                   style="font-size: 0.75rem;">
+
+                    Quản lý sản phẩm →
+
+                </p>
+
+            </div>
+
+        </a>
+
+    </div>
+
+    <!-- NGƯỜI DÙNG -->
+
+    <div class="col-sm-6 col-lg-3">
+
+        <a href="#"
+           class="card border shadow-sm h-100 text-decoration-none">
+
+            <div class="card-body">
+
+                <div class="d-flex align-items-center justify-content-between mb-2">
+
+                    <div class="rounded d-flex align-items-center justify-content-center"
+                         style="width: 40px; height: 40px; background: #fef3c7;">
+
+                        <i class="bi bi-people"
+                           style="color: #f59e0b;"></i>
+
+                    </div>
+
+                    <span class="text-uppercase fw-semibold text-secondary"
+                          style="font-size: 0.6rem; letter-spacing: 0.05em;">
+
+                        Người dùng
+
+                    </span>
+
+                </div>
+
+                <p class="h4 fw-bold text-dark mb-0">
+
+                    @Model.TotalUsers
+
+                </p>
+
+                <p class="text-secondary mb-0"
+                   style="font-size: 0.75rem;">
+
+                    Quản lý người dùng →
+
+                </p>
+
+            </div>
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<div class="row g-3 mb-4">
+
+    <!-- DOANH THU -->
+
+    <div class="col-lg-6">
+
+        <div class="card border shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="fw-semibold mb-3">
+
+                    <i class="bi bi-graph-up me-1"
+                       style="color: #3b82f6;"></i>
+
+                    Xu hướng doanh thu
+
+                </h6>
+
+                <div style="height: 250px;">
+
+                    <canvas id="revenueChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ĐƠN HÀNG -->
+
+    <div class="col-lg-6">
+
+        <div class="card border shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="fw-semibold mb-3">
+
+                    <i class="bi bi-bar-chart me-1"
+                       style="color: #10b981;"></i>
+
+                    Đơn hàng theo tháng
+
+                </h6>
+
+                <div style="height: 250px;">
+
+                    <canvas id="orderChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="/js/dashboard.js"
+            asp-append-version="true"></script>
+
+}

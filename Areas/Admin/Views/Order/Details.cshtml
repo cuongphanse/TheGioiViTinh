@@ -1,0 +1,573 @@
+﻿@model OrderHeader
+@using TheGioiViTinh.Models.Enum
+
+@{
+    var isCustomer = User.IsInRole(UserRole.Customer);
+    var containerClass = isCustomer ? "container my-4 pt-3" : "container-fluid py-4";
+}
+<div class="@containerClass">
+
+    <form method="post">
+
+        <input asp-for="Id" hidden />
+
+        <!-- BACK -->
+
+        <a asp-action="Index"
+           class="text-decoration-none text-secondary small fw-medium d-inline-flex align-items-center gap-1 mb-3">
+
+            <i class="bi bi-arrow-left"></i>
+            Quay lại danh sách đơn hàng
+
+        </a>
+
+        <div class="card border shadow-sm overflow-hidden">
+
+            <!-- HEADER -->
+
+            <div class="card-header text-white py-3 px-4"
+                 style="background: linear-gradient(to right, #065f46, #282828, #191414);">
+
+                <h5 class="mb-0 fw-bold">
+
+                    <i class="bi bi-receipt me-2"></i>
+                    Đơn hàng #@Model.Id
+
+                </h5>
+
+                <p class="mb-0 small"
+                   style="color: #1DB954;">
+
+                    Đặt ngày @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")
+
+                </p>
+
+            </div>
+
+            <div class="card-body p-4">
+
+                <div class="row g-5">
+
+                    <!-- ================= LEFT ================= -->
+
+                    <div class="col-lg-6">
+
+                        <h6 class="text-uppercase fw-semibold text-secondary mb-4"
+                            style="font-size: 0.7rem; letter-spacing: 0.1em;">
+
+                            Thông tin giao hàng
+
+                        </h6>
+
+                        <!-- NAME -->
+
+                        <div class="row g-2 mb-2">
+
+                            <label class="col-4 col-form-label small fw-medium text-secondary">
+
+                                Họ tên
+
+                            </label>
+
+                            <div class="col-8">
+                                @if (isCustomer)
+                                {
+                                <input asp-for="Name" 
+                                    disabled       
+                                    class="form-control form-control-sm" />
+                                }
+                                else
+                                {
+                                    <input asp-for="Name"
+                                        class="form-control form-control-sm" />
+
+                                    <span asp-validation-for="Name"
+                                            class="text-danger small"></span>         
+                                }
+                            </div>
+
+                        </div>
+
+                        <!-- PHONE -->
+
+                        <div class="row g-2 mb-2">
+
+                            <label class="col-4 col-form-label small fw-medium text-secondary">
+
+                                Số điện thoại
+
+                            </label>
+
+                            <div class="col-8">
+                                @if(isCustomer)
+                                {
+                                    <input asp-for="PhoneNumber"
+                                       disabled
+                                       class="form-control form-control-sm" />
+                                }
+                                else
+                                {
+                                <input asp-for="PhoneNumber"
+                                       class="form-control form-control-sm" />
+
+                                <span asp-validation-for="PhoneNumber"
+                                      class="text-danger small"></span>
+                                }
+                            </div>
+
+                        </div>
+
+                        <!-- ADDRESS -->
+
+                        <div class="row g-2 mb-2">
+
+                            <label class="col-4 col-form-label small fw-medium text-secondary">
+
+                                Địa chỉ
+
+                            </label>
+
+                            <div class="col-8">
+                                @if(isCustomer)
+                                {
+                                    <input asp-for="StreetAddress"
+                                       disabled
+                                       class="form-control form-control-sm" />
+                                }
+                                else
+                                {
+                                <input asp-for="StreetAddress"
+                                       class="form-control form-control-sm" />
+
+                                <span asp-validation-for="StreetAddress"
+                                      class="text-danger small"></span>
+                                }
+                            </div>
+
+                        </div>
+
+                        <!-- WARD -->
+
+                        <div class="row g-2 mb-2">
+
+                            <label class="col-4 col-form-label small fw-medium text-secondary">
+
+                                Phường/Xã
+
+                            </label>
+
+                            <div class="col-8">
+                                @if(isCustomer)
+                                {
+                                    <input asp-for="Ward"
+                                       disabled
+                                       class="form-control form-control-sm" />
+                                }
+                                else
+                                {
+                                <input asp-for="Ward"
+                                       class="form-control form-control-sm" />
+                                }
+                            </div>
+
+                        </div>
+
+                        <!-- DISTRICT -->
+
+                        <div class="row g-2 mb-2">
+
+                            <label class="col-4 col-form-label small fw-medium text-secondary">
+
+                                Quận/Huyện
+
+                            </label>
+
+                            <div class="col-8">
+                                @if (isCustomer)
+                                {
+                                    <input asp-for="District"
+                                           disabled
+                                           class="form-control form-control-sm" />
+                                }
+                                else
+                                { 
+                                <input asp-for="District"
+                                       class="form-control form-control-sm" />
+                                }
+                            </div>
+
+                        </div>
+
+                        <!-- CITY -->
+
+                        <div class="row g-2 mb-2">
+
+                            <label class="col-4 col-form-label small fw-medium text-secondary">
+
+                                Tỉnh/Thành phố
+
+                            </label>
+
+                            <div class="col-8">
+                                @if (isCustomer)
+                                {
+                                    <input asp-for="CityOrProvince"
+                                           disabled
+                                           class="form-control form-control-sm" />
+                                }
+                                else
+                                { 
+                                <input asp-for="CityOrProvince"
+                                       class="form-control form-control-sm" />
+                                }
+                            </div>
+
+                        </div>
+
+                        <!-- EMAIL -->
+
+                        <div class="row g-2 mb-2">
+
+                            <label class="col-4 col-form-label small fw-medium text-secondary">
+
+                                Email
+
+                            </label>
+
+                            <div class="col-8">
+
+                                <input type="email"
+                                       readonly
+                                       class="form-control-plaintext form-control-sm"
+                                       value="@Model.ApplicationUser?.Email" />
+
+                            </div>
+
+                        </div>
+
+                        <!-- ORDER DATE -->
+
+                        <div class="row g-2 mb-2">
+
+                            <label class="col-4 col-form-label small fw-medium text-secondary">
+
+                                Ngày đặt
+
+                            </label>
+
+                            <div class="col-8">
+
+                                <input type="text"
+                                       readonly
+                                       class="form-control-plaintext form-control-sm"
+                                       value="@Model.OrderDate.ToString("dd/MM/yyyy HH:mm")" />
+
+                            </div>
+
+                        </div>
+
+                        <!-- PAYMENT METHOD -->
+
+                        <div class="row g-2 mb-2">
+
+                            <label class="col-4 col-form-label small fw-medium text-secondary">
+
+                                Thanh toán
+
+                            </label>
+
+                            <div class="col-8">
+
+                                <p class="form-control-plaintext">
+                                    @Model.PaymentMethod
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <!-- CARRIER -->
+                        @if(Model.OrderStatus != Status.StatusPending && Model.OrderStatus != Status.StatusApproved){
+                            <div class="row g-2 mb-2">
+
+                                <label class="col-4 col-form-label small fw-medium text-secondary">
+
+                                    Đơn vị vận chuyển
+
+                                </label>
+
+                                <div class="col-8">
+
+                                    <input asp-for="Carrier"
+                                           class="form-control form-control-sm" />
+
+                                </div>
+
+                            </div>
+
+                            <!-- TRACKING -->
+
+                            <div class="row g-2 mb-2">
+
+                                <label class="col-4 col-form-label small fw-medium text-secondary">
+
+                                    Mã vận đơn
+
+                                </label>
+
+                                <div class="col-8">
+
+                                    <input asp-for="TrackingNumber"
+                                           class="form-control form-control-sm" />
+
+                                </div>
+
+                            </div>
+                        }
+                       
+
+                        <!-- SHIPPING DATE -->
+
+                        <div class="row g-2 mb-2">
+
+                            <label class="col-4 col-form-label small fw-medium text-secondary">
+
+                                Ngày giao hàng
+
+                            </label>
+
+                            <div class="col-8">
+
+                                <input type="text"
+                                       readonly
+                                       class="form-control-plaintext form-control-sm"
+                                       value="@(Model.ShippingDate == DateTime.MinValue ? "" : Model.ShippingDate.ToString("dd/MM/yyyy"))" />
+
+                            </div>
+
+                        </div>
+
+                        <!-- NOTE -->
+
+                      @*   <div class="row g-2 mb-2">
+
+                            <label class="col-4 col-form-label small fw-medium text-secondary">
+
+                                Ghi chú
+
+                            </label>
+
+                            <div class="col-8">
+
+                                <textarea asp-for="Note"
+                                          rows="3"
+                                          class="form-control form-control-sm"></textarea>
+
+                            </div>
+
+                        </div> *@
+
+                        <!-- UPDATE -->
+                        @if (!isCustomer && Model.OrderStatus == Status.StatusCancelled && Model.OrderStatus == Status.StatusShipped)
+                            {
+                                <button asp-action="UpdateOrderDetails" type="submit"
+                                class="btn btn-success w-100 fw-semibold mt-3">
+
+                                    Cập nhật thông tin đơn hàng
+
+                                </button>
+                            }
+                        </div>
+
+                    <!-- ================= RIGHT ================= -->
+
+                    <div class="col-lg-6">
+
+                        <h6 class="text-uppercase fw-semibold text-secondary mb-4"
+                            style="font-size: 0.7rem; letter-spacing: 0.1em;">
+
+                            Chi tiết đơn hàng
+
+                        </h6>
+
+                        <!-- STATUS -->
+
+                        <span class="badge bg-dark mb-3 px-3 py-2">
+
+                            <i class="bi bi-info-circle me-1"></i>
+
+                            @Model.OrderStatus
+
+                        </span>
+
+                        <!-- ORDER ITEMS -->
+
+                        <div class="border rounded overflow-hidden mb-4">
+
+                            @foreach (var item in Model.OrderDetails)
+                            {
+                                <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+
+
+                                    <div class="d-flex align-items-center gap-3">
+
+                                        <div class="rounded overflow-hidden border flex-shrink-0"
+                                             style="width:70px;height:70px;">
+
+                                            <img src="@item?.Product?.MainImageUrl"
+                                                 class="w-100 h-100"
+                                                 style="object-fit:cover;"
+                                                 alt="@item?.Product?.Name" />
+
+                                        </div>
+                                        <div>
+
+                                            <p class="fw-semibold mb-1 small text-dark">
+
+                                                @item?.Product?.Name
+
+                                            </p>
+
+                                            <p class="text-secondary mb-0"
+                                               style="font-size:0.8rem;">
+
+                                                @item?.Product?.FinalPrice.ToString("N0") ₫
+                                                ×
+                                                @item?.Count
+
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- RIGHT PRICE -->
+
+                                    <div class="text-end">
+
+                                        <p class="fw-bold mb-0"
+                                           style="color:#17A34A;">
+
+                                            @item.Price.ToString("N0") ₫
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+                            }
+
+                            <!-- TOTAL -->
+
+                            <div class="d-flex justify-content-between align-items-center p-3 text-white"
+                                 style="background: linear-gradient(to right, #065f46, #282828, #191414);">
+
+                                <span class="fw-bold small text-uppercase">
+
+                                    Tổng cộng
+
+                                </span>
+
+                                <span class="fw-bold fs-5">
+
+                                    @Model.OrderTotal.ToString("N0") ₫
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <!-- ACTIONS -->
+                        @if (User.IsInRole(UserRole.Admin) || User.IsInRole(UserRole.Employee))
+                        {
+                        <div class="d-grid gap-2">
+
+                            @if (Model.OrderStatus == Status.StatusApproved)
+                            {
+                                <button type="submit"
+                                        asp-action="UpdateOrderStatus" asp-route-status="@Status.StatusProcessing"
+                                        class="btn btn-warning fw-semibold text-dark">
+
+                                    <i class="bi bi-box-seam me-1"></i>
+                                    Bắt đầu xử lý
+
+                                </button>
+                            }
+
+                            @if (Model.OrderStatus == Status.StatusProcessing)
+                            {
+                                <button type="submit"
+                                        asp-action="UpdateOrderStatus" asp-route-status="@Status.StatusShipped"
+                                        onclick="return validateInput()"
+                                        class="btn btn-primary fw-semibold">
+
+                                    <i class="bi bi-truck me-1"></i>
+                                    Giao hàng
+
+                                </button>
+                            }
+
+                            @if (Model.OrderStatus != Status.StatusCancelled &&
+                           Model.OrderStatus != Status.StatusCompleted && Model.OrderStatus != Status.StatusShipped)
+                            {
+                                <button type="submit"
+                                        asp-action="UpdateOrderStatus" asp-route-status="@Status.StatusCancelled"
+                                        class="btn btn-danger fw-semibold">
+
+                                    <i class="bi bi-x-circle me-1"></i>
+                                    Hủy đơn hàng
+
+                                </button>
+                            }
+
+                        </div>
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        function validateInput() {
+
+            if (document.getElementById("Carrier").value == "") {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Thiếu thông tin',
+                    text: 'Vui lòng nhập đơn vị vận chuyển'
+                });
+
+                return false;
+            }
+
+            if (document.getElementById("TrackingNumber").value == "") {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Thiếu thông tin',
+                    text: 'Vui lòng nhập mã vận đơn'
+                });
+
+                return false;
+            }
+
+            return true;
+        }
+
+    </script>
+
+}

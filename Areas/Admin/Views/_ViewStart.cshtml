@@ -1,0 +1,11 @@
+﻿@using TheGioiViTinh.Models.Enum
+@{
+    if(User.IsInRole(UserRole.Admin) || User.IsInRole(UserRole.Employee))
+    {  
+        Layout = "_AdminLayout";
+    }
+    else
+    {
+        Layout = "_Layout"; 
+    }
+}

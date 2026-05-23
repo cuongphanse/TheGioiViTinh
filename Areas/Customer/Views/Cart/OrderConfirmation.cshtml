@@ -1,0 +1,111 @@
+﻿@model int
+
+<div class="d-flex align-items-center justify-content-center py-5"
+     style="min-height: 70vh;">
+
+    <div style="width: 100%; max-width: 420px;"
+         class="text-center">
+
+        <!-- ICON SUCCESS -->
+
+        <div class="mx-auto mb-4 rounded-circle d-flex align-items-center justify-content-center shadow"
+             style="width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #17A34A, #10b981);">
+
+            <i class="bi bi-check-lg display-5 text-white"></i>
+
+        </div>
+
+        <!-- TITLE -->
+
+        <h1 class="h3 fw-bold mb-2">
+
+            Đặt hàng thành công!
+
+        </h1>
+
+        <p class="text-secondary mb-4">
+
+            Cảm ơn bạn đã mua hàng tại Thế Giới Vi Tính.
+            Chúng tôi đang chuẩn bị đơn hàng của bạn.
+
+        </p>
+
+        <!-- ORDER INFO -->
+
+        <div class="card border shadow-sm overflow-hidden mb-4">
+
+            <div class="card-header text-white py-2 text-center"
+                 style="background: linear-gradient(to right, #065f46, #282828, #191414);">
+
+                <p class="text-uppercase fw-semibold mb-0"
+                   style="font-size: 0.7rem; letter-spacing: 0.1em;">
+
+                    Mã đơn hàng
+
+                </p>
+
+            </div>
+
+            <div class="card-body py-4">
+
+                <span class="display-6 fw-bold"
+                      style="color: #17A34A;">
+
+                    #@Model
+
+                </span>
+
+            </div>
+
+            <div class="card-footer bg-light">
+
+                <div class="d-flex justify-content-center gap-4 small text-secondary flex-wrap">
+
+                    <span>
+                        <i class="bi bi-envelope me-1"></i>
+                        Đã gửi xác nhận
+                    </span>
+
+                    <span>
+                        <i class="bi bi-truck me-1"></i>
+                        Sẽ cập nhật vận chuyển sớm
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ACTION BUTTONS -->
+
+        <div class="d-grid gap-2">
+
+            <a asp-area="Admin"
+               asp-controller="Order"
+               asp-action="Index"
+               class="btn text-white fw-semibold"
+               style="background: #17A34A;">
+
+                <i class="bi bi-box me-1"></i>
+                Xem đơn hàng của tôi
+
+            </a>
+
+            <a asp-area="Customer"
+               asp-controller="Home"
+               asp-action="Index"
+               class="btn btn-outline-secondary fw-semibold">
+
+                <i class="bi bi-house me-1"></i>
+                Tiếp tục mua sắm
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,39 @@
+﻿@using TheGioiViTinh.Models.Enum
+
+<div class="container-fluid px-4">
+    <div class="card border shadow-sm overflow-hidden">
+        <div class="card-header text-white py-3 px-4 d-flex align-items-center justify-content-between" style="background: linear-gradient(to right, #065f46, #282828, #191414);">
+            <div>
+                <h5 class="mb-0 fw-bold"><i class="bi bi-people me-2"></i>Users</h5>
+                <p class="mb-0 small" style="color: #1DB954;">Quản lý tài khoản và vai trò</p>
+            </div>
+            @if (User.IsInRole(UserRole.Admin))
+            {
+                <a asp-action="Register" asp-controller="Account" asp-area="Identity" class="btn btn-sm btn-outline-light fw-semibold d-inline-flex align-items-center gap-1">
+                    <i class="bi bi-person-plus"></i> Tạo tài khoản
+                </a>
+            }
+            
+        </div>
+        <div class="card-body" style="min-height: 500px;">
+            <table id="tblData" class="table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Họ và tên</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                        <th>Vai trò</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+@* TODO: Add JavaScript file for user management functionality *@
+@section Scripts {
+
+    <script src="/js/user.js" asp-append-version="true"></script>
+
+}

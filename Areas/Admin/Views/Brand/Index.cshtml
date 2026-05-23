@@ -1,0 +1,84 @@
+﻿@model List<Brand>
+
+<div class="container-fluid">
+
+    <div class="card border shadow-sm overflow-hidden">
+
+        <div class="card-header text-white py-3 px-4 d-flex align-items-center justify-content-between"
+             style="background: linear-gradient(to right, #065f46, #282828, #191414);">
+
+            <div>
+                <h5 class="mb-0 fw-bold">
+                    <i class="bi bi-building me-2"></i>
+                    Thương Hiệu
+                </h5>
+
+                <p class="mb-0 small" style="color: #1DB954;">
+                    Quản lý các thương hiệu sản phẩm của bạn
+                </p>
+            </div>
+
+            <a asp-controller="Brand"
+               asp-action="Create"
+               class="btn btn-sm btn-outline-light fw-semibold d-inline-flex align-items-center gap-1">
+
+                <i class="bi bi-plus-lg"></i>
+                Thêm Thương Hiệu
+            </a>
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table-styled">
+
+                <thead>
+                    <tr>
+                        <th>Tên Thương Hiệu</th>
+                        <th class="text-end">Thao Tác</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var brand in Model.OrderBy(u => u.Name))
+                    {
+                        <tr>
+
+                            <td class="fw-medium" style="color: #1e293b;">
+                                @brand.Name
+                            </td>
+
+                            <td class="text-end">
+
+                                <a asp-controller="Brand"
+                                   asp-action="Update"
+                                   asp-route-id="@brand.Id"
+                                   class="btn btn-sm btn-outline-success me-1">
+
+                                    <i class="bi bi-pencil-square me-1"></i>
+                                    Sửa
+                                </a>
+
+                                <a asp-controller="Brand"
+                                   asp-action="Delete"
+                                   asp-route-id="@brand.Id"
+                                   class="btn btn-sm btn-outline-danger">
+
+                                    <i class="bi bi-trash me-1"></i>
+                                    Xóa
+                                </a>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

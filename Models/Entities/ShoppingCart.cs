@@ -1,0 +1,36 @@
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TheGioiViTinh.Models.Entities
+{
+	public class ShoppingCart
+	{
+		public int Id { get; set; }
+		public Guid ProductId { get; set; }
+		[ForeignKey("ProductId")]
+		[ValidateNever]
+		public Product Product { get; set; }
+		[Range(1, 1000, ErrorMessage ="Số lượng phải từ 1 tới 1000")]
+		public int Count { get; set; }
+		public string ApplicationUserId { get; set; } = string.Empty;
+		[ForeignKey("ApplicationUserId")]
+		[ValidateNever]
+		public ApplicationUser ApplicationUser { get; set; }
+		[NotMapped]
+		public decimal Price { get {
+				if(Product == null)
+				{
+					return 0;
+				}
+				if(Product.FinalPrice < Product.Price)
+				{
+					return Product.FinalPrice * Count;
+				}
+				else
+				{
+					return Product.Price * Count;
+				}
+			} }
+	}
+}
