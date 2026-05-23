@@ -368,7 +368,9 @@
                         </div> *@
 
                         <!-- UPDATE -->
-                        @if (!isCustomer && Model.OrderStatus == Status.StatusCancelled && Model.OrderStatus == Status.StatusShipped)
+                        @if (!isCustomer
+    && Model.OrderStatus != Status.StatusCancelled
+    && Model.OrderStatus != Status.StatusShipped)
                             {
                                 <button asp-action="UpdateOrderDetails" type="submit"
                                 class="btn btn-success w-100 fw-semibold mt-3">

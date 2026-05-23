@@ -100,12 +100,6 @@ function loadDataTable() {
                     return `
                         <div class="text-end">
 
-                            <a href="/Admin/Discount/Update?id=${data}"
-                               class="btn btn-sm btn-outline-success me-1">
-
-                                <i class="bi bi-pencil-square"></i>
-                                Sửa
-                            </a>
 
                             <a onclick="Delete('/Admin/Discount/Delete/${data}')"
                                class="btn btn-sm btn-outline-danger">

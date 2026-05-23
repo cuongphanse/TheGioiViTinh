@@ -219,7 +219,6 @@ C:\KHOAHOC-NET\TheGioiViTinh\TheGioiViTinh\TheGioiViTinh\obj\Debug\net10.0\TheGi
 C:\KHOAHOC-NET\TheGioiViTinh\TheGioiViTinh\TheGioiViTinh\obj\Debug\net10.0\ref\TheGioiViTinh.dll
 C:\KHOAHOC-NET\TheGioiViTinh\TheGioiViTinh\TheGioiViTinh\obj\Debug\net10.0\compressed\99t3b9wywx-{0}-hm7ogr2u7u-hm7ogr2u7u.gz
 C:\KHOAHOC-NET\TheGioiViTinh\TheGioiViTinh\TheGioiViTinh\obj\Debug\net10.0\compressed\jio8fl7cew-{0}-sby1vh46uk-sby1vh46uk.gz
-C:\KHOAHOC-NET\TheGioiViTinh\TheGioiViTinh\TheGioiViTinh\obj\Debug\net10.0\compressed\n0vwwg92r5-{0}-vztb0b6mj0-vztb0b6mj0.gz
 C:\KHOAHOC-NET\TheGioiViTinh\TheGioiViTinh\TheGioiViTinh\bin\Debug\net10.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\KHOAHOC-NET\TheGioiViTinh\TheGioiViTinh\TheGioiViTinh\bin\Debug\net10.0\Microsoft.AspNetCore.Identity.UI.dll
 C:\KHOAHOC-NET\TheGioiViTinh\TheGioiViTinh\TheGioiViTinh\obj\Debug\net10.0\TheGioiViTinh.MvcApplicationPartsAssemblyInfo.cs
@@ -404,3 +403,5 @@ C:\KHOAHOC-NET\TheGioiViTinh\TheGioiViTinh\TheGioiViTinh\obj\Debug\net10.0\compr
 C:\KHOAHOC-NET\TheGioiViTinh\TheGioiViTinh\TheGioiViTinh\obj\Debug\net10.0\compressed\yahgrtddaz-{0}-u2wrzfym1e-u2wrzfym1e.gz
 C:\KHOAHOC-NET\TheGioiViTinh\TheGioiViTinh\TheGioiViTinh\obj\Debug\net10.0\compressed\b2vdvla327-{0}-rmkm0w9kim-rmkm0w9kim.gz
 C:\KHOAHOC-NET\TheGioiViTinh\TheGioiViTinh\TheGioiViTinh\obj\Debug\net10.0\compressed\do5n6bep6i-{0}-6gfgstiq86-6gfgstiq86.gz
+C:\KHOAHOC-NET\TheGioiViTinh\TheGioiViTinh\TheGioiViTinh\obj\Debug\net10.0\TheGioiViTinh.sourcelink.json
+C:\KHOAHOC-NET\TheGioiViTinh\TheGioiViTinh\TheGioiViTinh\obj\Debug\net10.0\compressed\n0vwwg92r5-{0}-hi7maojgiz-hi7maojgiz.gz

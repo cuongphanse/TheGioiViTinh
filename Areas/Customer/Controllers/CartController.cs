@@ -75,19 +75,25 @@ namespace TheGioiViTinh.Areas.Customer.Controllers
 				if (!cartItems.Any())
 				{
 					TempData["Error"] = "Giỏ hàng đang trống";
+
 					return RedirectToAction(nameof(Index));
 				}
 
 				shoppingCartVM.ShoppingCartList = cartItems;
 
-				shoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
-				shoppingCartVM.OrderHeader.ApplicationUserId = userId;
-				shoppingCartVM.OrderHeader.OrderStatus = Status.StatusApproved;
+				shoppingCartVM.OrderHeader.OrderDate =
+					DateTime.Now;
+
+				shoppingCartVM.OrderHeader.ApplicationUserId =
+					userId;
+
 
 				foreach (var cart in cartItems)
 				{
-					shoppingCartVM.OrderHeader.OrderTotal += cart.Price;
+					shoppingCartVM.OrderHeader.OrderTotal +=
+						cart.Price;
 				}
+
 
 				shoppingCartVM.OrderHeader.OrderDetails =
 					cartItems.Select(cart => new OrderDetails
@@ -96,37 +102,62 @@ namespace TheGioiViTinh.Areas.Customer.Controllers
 						Price = cart.Price,
 						Count = cart.Count
 					}).ToList();
-				shoppingCartVM.OrderHeader.PaymentMethod = shoppingCartVM.OrderHeader.PaymentMethod;
-				await _orderService.CreateOrderAsync(shoppingCartVM.OrderHeader);
 
-				if (shoppingCartVM.OrderHeader.PaymentMethod == Status.PaymentMethodVNPay)
+
+				if (shoppingCartVM.OrderHeader.PaymentMethod
+					== Status.PaymentMethodVNPay)
 				{
-					var domain = $"{Request.Scheme}://{Request.Host}";
+					shoppingCartVM.OrderHeader.OrderStatus =
+						Status.StatusCancelled;
+
+					shoppingCartVM.OrderHeader.PaymentStatus =
+						Status.PaymentStatusPending;
+
+					await _orderService.CreateOrderAsync(
+						shoppingCartVM.OrderHeader);
+
+					var domain =
+						$"{Request.Scheme}://{Request.Host}";
 
 					var vnPayModel = new VnPayRequestModel
 					{
-						Amount = (decimal)shoppingCartVM.OrderHeader.OrderTotal,
+						Amount =
+							(decimal)shoppingCartVM.OrderHeader.OrderTotal,
+
 						CreatedDate = DateTime.Now,
-						OrderId = shoppingCartVM.OrderHeader.Id
+
+						OrderId =
+							shoppingCartVM.OrderHeader.Id
 					};
 
-					string paymentUrl = _vnPayService.CreatePaymentUrl(
-						HttpContext,
-						vnPayModel,
-						domain + Url.Action(
-							"PaymentCallBack",
-							"Cart",
-							new { area = "Customer" })
-					);
+					string paymentUrl =
+						_vnPayService.CreatePaymentUrl(
+							HttpContext,
+							vnPayModel,
+							domain + Url.Action(
+								"PaymentCallBack",
+								"Cart",
+								new { area = "Customer" })
+						);
 
 					return Redirect(paymentUrl);
 				}
+
+				shoppingCartVM.OrderHeader.OrderStatus =
+					Status.StatusApproved;
+
+				shoppingCartVM.OrderHeader.PaymentStatus =
+					Status.PaymentStatusPending;
+
+				await _orderService.CreateOrderAsync(
+					shoppingCartVM.OrderHeader);
 
 				await _shoppingCartService.ClearCartAsync(userId);
 
 				await UpdateCartSession();
 
-				TempData["Success"] = "Đặt hàng thành công";
+				TempData["Success"] =
+					"Đặt hàng thành công";
 
 				return RedirectToAction(
 					"OrderConfirmation",
@@ -146,25 +177,35 @@ namespace TheGioiViTinh.Areas.Customer.Controllers
 				Request.Query,
 				out int orderId);
 
-			var order = await _orderService.GetOrderByIdAsync(p=>p.Id == orderId);
+			var order = await _orderService.GetOrderByIdAsync(
+				p => p.Id == orderId);
 
 			if (order == null)
 			{
 				TempData["Error"] = "Không tìm thấy đơn hàng";
+
 				return RedirectToAction(nameof(Index));
 			}
+
+			// THANH TOÁN THÀNH CÔNG
 
 			if (response)
 			{
 				order.PaymentStatus = Status.PaymentStatusApproved;
 
+				order.OrderStatus = Status.StatusApproved;
+
+				await _orderService.UpdateOrderAsync(order);
+
 				TempData["Success"] =
 					"Thanh toán VNPay thành công";
 
-				var claimsIdentity = (ClaimsIdentity)User.Identity;
+				var claimsIdentity =
+					(ClaimsIdentity)User.Identity;
 
 				var userId = claimsIdentity?
-					.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+					.FindFirst(ClaimTypes.NameIdentifier)?
+					.Value;
 
 				if (!string.IsNullOrEmpty(userId))
 				{
@@ -178,7 +219,15 @@ namespace TheGioiViTinh.Areas.Customer.Controllers
 					new { id = orderId });
 			}
 
-			order.PaymentStatus = Status.PaymentStatusRejected;
+			// THANH TOÁN THẤT BẠI
+
+			order.PaymentStatus =
+				Status.PaymentStatusRejected;
+
+			order.OrderStatus =
+				Status.StatusCancelled;
+
+			await _orderService.UpdateOrderAsync(order);
 
 			TempData["Error"] =
 				"Thanh toán VNPay thất bại";
